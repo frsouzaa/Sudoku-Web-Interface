@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUDOKU</title>
+    <script src="src/script.js"></script>
+    <script src="https://kit.fontawesome.com/07a4cfc957.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <div id="content">
+        <header id="cabecalho">
+            <!-- <i class="fa-regular fa-moon"></i> -->
+            <button id="mudar-tema" onclick="mudarCor()"><i class="fa-regular fa-sun"></i></button>
+        </header>
+        <main id="main" class="dark-mode">
+            <input class="input-number dark-mode" onkeypress="return allowJustNumbers(event)" onclick="addClassSelected(event)" ondblclick="removerValor(event)">
+            <h1 id="title" class="dark-mode">SUDOKU</h1>
+            <div id="tabuleiro">
+                <div id="grid" class="dark-mode">
+                    <div class="bloco-grid dark-mode" id="bloco-1"></div>
+                    <div class="bloco-grid dark-mode" id="bloco-2"></div>
+                    <div class="bloco-grid dark-mode" id="bloco-3"></div>
+                    <div class="bloco-grid dark-mode" id="bloco-4"></div>
+                    <div class="bloco-grid dark-mode" id="bloco-5"></div>
+                    <div class="bloco-grid dark-mode" id="bloco-6"></div>
+                    <div class="bloco-grid dark-mode" id="bloco-7"></div>
+                    <div class="bloco-grid dark-mode" id="bloco-8"></div>
+                    <div class="bloco-grid dark-mode" id="bloco-9"></div>
+                </div>
+            </div>
+            <div id="teclado">
+                <button class="btn-preencher dark-mode" id="btn1" onclick="preencherCampo(event)">1</button>
+                <button class="btn-preencher dark-mode" id="btn2" onclick="preencherCampo(event)">2</button>
+                <button class="btn-preencher dark-mode" id="btn3" onclick="preencherCampo(event)">3</button>
+                <button class="btn-preencher dark-mode" id="btn4" onclick="preencherCampo(event)">4</button>
+                <button class="btn-preencher dark-mode" id="btn5" onclick="preencherCampo(event)">5</button>
+                <button class="btn-preencher dark-mode" id="btn6" onclick="preencherCampo(event)">6</button>
+                <button class="btn-preencher dark-mode" id="btn7" onclick="preencherCampo(event)">7</button>
+                <button class="btn-preencher dark-mode" id="btn8" onclick="preencherCampo(event)">8</button>
+                <button class="btn-preencher dark-mode" id="btn9" onclick="preencherCampo(event)">9</button>
+            </div>
+            <button class="dark-mode" id="submit">Enviar</button>
+        </main>
+    </div>
+</body>
+</html>
