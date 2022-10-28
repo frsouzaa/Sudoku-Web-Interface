@@ -96,25 +96,33 @@ function mudarCor() {
     const main = document.getElementById("main");
     const conteudo = document.getElementById("content");
     const enviar = document.getElementById("submit");
-    const teclado = document.getElementsByClassName("btn-preencher");
-    const inputs = document.getElementsByClassName("input-number");
-    const grid = document.getElementById("grid");
-    const bloco = document.getElementsByClassName("bloco-grid");
     const cabecalho = document.getElementById("cabecalho");
-
+    const mudarTema = document.getElementById("btn-tema");
+    const grid = document.getElementById("grid");
+    const icone = document.getElementById("mudar-tema");
+    
+    
     titulo.classList.toggle("dark-mode");
     main.classList.toggle("dark-mode");
     enviar.classList.toggle("dark-mode");
     grid.classList.toggle("dark-mode");
     cabecalho.classList.toggle("dark-mode");
-    content.classList.toggle("dark-mode");
+    conteudo.classList.toggle("dark-mode");
+    mudarTema.classList.toggle("dark-mode");
+    icone.classList.toggle("dark-mode");
 
     titulo.classList.toggle("light-mode");
     main.classList.toggle("light-mode");
     enviar.classList.toggle("light-mode");
     grid.classList.toggle("light-mode");
     cabecalho.classList.toggle("light-mode");
-    content.classList.toggle("light-mode");
+    conteudo.classList.toggle("light-mode");
+    mudarTema.classList.toggle("light-mode");
+    icone.classList.toggle("light-mode");
+
+    const teclado = document.getElementsByClassName("btn-preencher");
+    const inputs = document.getElementsByClassName("input-number");
+    const bloco = document.getElementsByClassName("bloco-grid");
 
     for(let i = 0; i< teclado.length; i++) {
         teclado[i].classList.toggle("dark-mode");

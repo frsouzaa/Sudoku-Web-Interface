@@ -13,7 +13,9 @@
     <div id="content">
         <header id="cabecalho">
             <!-- <i class="fa-regular fa-moon"></i> -->
-            <button id="mudar-tema" onclick="mudarCor()"><i class="fa-regular fa-sun"></i></button>
+            <button id="btn-tema" onclick="mudarCor()">
+                <i id="mudar-tema" class="fa-regular fa-sun dark-mode"></i>
+            </button>
         </header>
         <main id="main" class="dark-mode">
             <input class="input-number dark-mode" onkeypress="return allowJustNumbers(event)" onclick="addClassSelected(event)" ondblclick="removerValor(event)">
