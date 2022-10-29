@@ -130,8 +130,8 @@ body {
   padding: 5px;
   border-bottom: 2px solid;
   padding-bottom: 0;
-  transition: .3s ease all !important;
   border-radius: 2px;
+  transition: .3s ease all !important;
 }
 
 #btn-tema {
@@ -143,6 +143,7 @@ body {
   font-size: 20px;
   padding: 0;
   text-align: center;
+  transition: .3s ease all !important;
 }
 
 #btn-tema:hover {
@@ -161,6 +162,7 @@ body {
 .dark-mode {
   background-color: var(--dark-theme-background);
   color: var(--dark-theme-text);
+  transition: .3s ease all !important;
 }
 
 .default-number.dark-mode {
@@ -191,6 +193,7 @@ body {
 .light-mode {
   background-color: var(--light-theme-backgorund);
   color: var(--light-theme-second-color);
+  transition: .3s ease all !important;
 }
 
 .default-number.light-mode {
