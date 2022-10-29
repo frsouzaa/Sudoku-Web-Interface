@@ -11,8 +11,7 @@
 </head>
 <body>
     <div id="content">
-        <header id="cabecalho">
-            <!-- <i class="fa-regular fa-moon"></i> -->
+        <header id="cabecalho" class="dark-mode">
             <button id="btn-tema" onclick="mudarCor()">
                 <i id="mudar-tema" class="fa-regular fa-sun dark-mode"></i>
             </button>
@@ -44,7 +43,7 @@
                 <button class="btn-preencher dark-mode" id="btn8" onclick="preencherCampo(event)">8</button>
                 <button class="btn-preencher dark-mode" id="btn9" onclick="preencherCampo(event)">9</button>
             </div>
-            <button class="dark-mode" id="submit">Enviar</button>
+            <button class="dark-mode" id="submit" onclick="validaTabuleiro()">Enviar</button>
         </main>
     </div>
 </body>

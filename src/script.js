@@ -1,19 +1,17 @@
 window.onload = function () {
-    const baseURL = "http://localhost:5000/tabueleiroJogavel"
-
     const getTabuleiro = async () => {
+        const baseURL = "http://localhost:5000/tabueleiroJogavel"
         const data = await fetch(baseURL)
             .then(res => res.json())
-            .catch(e => teste(e))
-
+            .catch(e => tratarErroRetorno(e))
         return data;
     };
 
-    function teste(e) {
+    function tratarErroRetorno(e) {
         console.log(e);
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
-                insertCell("cell", 0, i);
+                insertCell("input-cell", "", i);
             }
         }
         removeInput()
@@ -92,50 +90,54 @@ function removerValor(event) {
 }
 
 function mudarCor() {
-    const titulo = document.getElementById("title");
-    const main = document.getElementById("main");
-    const conteudo = document.getElementById("content");
-    const enviar = document.getElementById("submit");
-    const cabecalho = document.getElementById("cabecalho");
-    const mudarTema = document.getElementById("btn-tema");
-    const grid = document.getElementById("grid");
-    const icone = document.getElementById("mudar-tema");
+    const elemetos = [
+        document.getElementById("title"),
+        document.getElementById("main"),
+        document.getElementById("content"),
+        document.getElementById("submit"),
+        document.getElementById("cabecalho"),
+        document.getElementById("btn-tema"),
+        document.getElementById("grid"),
+        document.getElementById("mudar-tema"),
+        document.getElementsByClassName("btn-preencher"),
+        document.getElementsByClassName("input-number"),
+        document.getElementsByClassName("bloco-grid")
+    ];
     
-    
-    titulo.classList.toggle("dark-mode");
-    main.classList.toggle("dark-mode");
-    enviar.classList.toggle("dark-mode");
-    grid.classList.toggle("dark-mode");
-    cabecalho.classList.toggle("dark-mode");
-    conteudo.classList.toggle("dark-mode");
-    mudarTema.classList.toggle("dark-mode");
-    icone.classList.toggle("dark-mode");
-
-    titulo.classList.toggle("light-mode");
-    main.classList.toggle("light-mode");
-    enviar.classList.toggle("light-mode");
-    grid.classList.toggle("light-mode");
-    cabecalho.classList.toggle("light-mode");
-    conteudo.classList.toggle("light-mode");
-    mudarTema.classList.toggle("light-mode");
-    icone.classList.toggle("light-mode");
-
-    const teclado = document.getElementsByClassName("btn-preencher");
-    const inputs = document.getElementsByClassName("input-number");
-    const bloco = document.getElementsByClassName("bloco-grid");
-
-    for(let i = 0; i< teclado.length; i++) {
-        teclado[i].classList.toggle("dark-mode");
-        teclado[i].classList.toggle("light-mode");
+    for(let i = 0; i < elemetos.length; i++) {
+        if(elemetos[i].length > 1) {
+            for(let j = 0; j < elemetos[i].length; j++) {
+                elemetos[i][j].classList.toggle("dark-mode");
+                elemetos[i][j].classList.toggle("light-mode");
+            }
+        } else {
+            elemetos[i].classList.toggle("dark-mode");
+            elemetos[i].classList.toggle("light-mode");
+        }
     }
-
-    for(let i = 0; i< inputs.length; i++) {
-        inputs[i].classList.toggle("dark-mode");
-        inputs[i].classList.toggle("light-mode");
-    }
-
-    for(let i = 0; i< bloco.length; i++) {
-        bloco[i].classList.toggle("dark-mode");
-        bloco[i].classList.toggle("light-mode");
-    }
+    elemetos[7].classList.toggle("fa-moon");
+    elemetos[7].classList.toggle("fa-sun");
 }
+
+// const validarApi = async () => {
+//     const baseURL = "http://localhost:5000/validaTabuleiro"
+//     // const requestP = { method: 'GET',
+//     //                    headers: myHeaders,
+//     //                    mode: 'cors',
+//     //                    cache: 'default' };
+//     const teste = {"teste": "abc"}
+//     const data = await fetch(baseURL, {
+//             method: "POST",
+//             body: {"teste": "teste"},
+//             headers: {"Content-type": "application/json; charset=UTF-8"}
+//         })
+//         .then(res => res.json())
+//         .catch(e => console.log(e))
+//     return data
+// }
+
+// const validaTabuleiro = async () => {
+//     const tabuleiro = await validarApi();
+//     console.log(tabuleiro)
+//     return(tabuleiro)
+// }

@@ -1,10 +1,16 @@
 :root {
-  --light-theme-backgorund: #fefeff;
-  --light-theme-text: #000000;
+  --light-theme-backgorund: #fefbc9;
+  --light-theme-main-color: #3d3738;
+  --light-theme-background-hover: #dbdbdb;
+  --light-theme-second-color: #6c039c;
 
   --dark-theme-text: #dca23d;
   --dark-theme-background: #3d3738;
   --dark-theme-background-hover: #272324;
+}
+
+* {
+  transition: .9s ease all;
 }
 
 body {
@@ -14,6 +20,8 @@ body {
   background-color: var(--dark-theme-background);
 }
 
+/* transition: .9s ease all; */
+
 #content {
   width: 100vw;
   height: 100vh;
@@ -21,17 +29,13 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: .9s ease all;
 }
 
 #cabecalho {
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: flex-end;
-  margin: 20px 27px 0 0;
-  transition: .9s ease all;
 }
 
 #main {
@@ -40,7 +44,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  transition: .9s ease all;
   align-items: center;
 }
 
@@ -48,7 +51,6 @@ body {
   margin: 0 0 15px 0;
   padding: 0;
   font-size: 60px;
-  transition: .9s ease all;
 }
 
 #submit {
@@ -58,12 +60,17 @@ body {
   padding: 5px;
   border-bottom: 2px solid;
   padding-bottom: 0;
-  transition: .9s ease all;
 }
 
 #submit:hover {
   cursor: pointer;
-  transition: .3s ease all;
+  transform: scale(1.03);
+  transition: .3s ease all !important;
+}
+
+#mudar-tema:hover {
+  transform: scale(1.3);
+  transition-property: transform 1s;
 }
 
 #tabuleiro {
@@ -96,7 +103,6 @@ body {
   padding: 0;
   display: flexbox;
   align-items: center;
-  transition: .9s ease all;
 }
 
 .input-number, .default-number {
@@ -106,12 +112,11 @@ body {
     text-align: center;
     font-size: 26px;
     padding: 0;
-    transition: .9s ease all;
 }
 
 .input-number:active, .input-number:focus, .input-number:hover {
   outline: none;
-  transition: .3s ease all;
+  transition: .3s ease all !important;
 }
 
 .default-number:active, .default-number:focus, .default-number:hover {
@@ -125,17 +130,17 @@ body {
   padding: 5px;
   border-bottom: 2px solid;
   padding-bottom: 0;
-  transition: .9s ease all;
+  transition: .3s ease all !important;
+  border-radius: 2px;
 }
 
 #btn-tema {
+  margin: 18px 18px 0 0;
   border: none;
   height: 20px;
   width: 20px;
-  /* border-radius: 20px; */
   background-color: rgba(0, 0, 0, 0);
   font-size: 20px;
-  transition: .9s ease all;
   padding: 0;
   text-align: center;
 }
@@ -146,7 +151,7 @@ body {
 
 .btn-preencher:hover {
   cursor: pointer;
-  transition: .3s ease all;
+  transform: scale(1.1);
 }
 
 .input-number::selection {
@@ -175,21 +180,25 @@ body {
 }
 
 .btn-preencher.dark-mode:hover {
-  background-color: #272324;
+  background-color: var(--dark-theme-background-hover);
+}
+
+#submit.dark-mode:hover {
+  background-color: var(--dark-theme-background-hover);
 }
 
 
 .light-mode {
   background-color: var(--light-theme-backgorund);
-  color: rgb(20, 15, 167);
+  color: var(--light-theme-second-color);
 }
 
 .default-number.light-mode {
-  color: var(--light-theme-text);
+  color: var(--light-theme-main-color);
 }
 
 .input-number.light-mode:active, .input-number.light-mode:focus, .input-number.light-mode:hover {
-    background-color: #e6e6e6;
+    background-color: var(--light-theme-background-hover);
 }
 
 .default-number.light-mode:hover {
@@ -197,9 +206,13 @@ body {
 }
 
 #grid.light-mode, .bloco-grid.light-mode {
-  border-color: var(--light-theme-text);
+  border-color: var(--light-theme-main-color);
 }
 
 .btn-preencher.light-mode:hover {
-  background-color: #cecece;
+  background-color: var(--light-theme-background-hover);
+}
+
+#submit.light-mode:hover {
+  background-color: var(--light-theme-background-hover);
 }
