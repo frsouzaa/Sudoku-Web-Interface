@@ -119,25 +119,31 @@ function mudarCor() {
     elemetos[7].classList.toggle("fa-sun");
 }
 
-// const validarApi = async () => {
-//     const baseURL = "http://localhost:5000/validaTabuleiro"
-//     // const requestP = { method: 'GET',
-//     //                    headers: myHeaders,
-//     //                    mode: 'cors',
-//     //                    cache: 'default' };
-//     const teste = {"teste": "abc"}
-//     const data = await fetch(baseURL, {
-//             method: "POST",
-//             body: {"teste": "teste"},
-//             headers: {"Content-type": "application/json; charset=UTF-8"}
-//         })
-//         .then(res => res.json())
-//         .catch(e => console.log(e))
-//     return data
-// }
+const validarApi = async () => {
+    const baseURL = "http://localhost:5000/validaTabuleiro";
+    const inputs = document.getElementsByClassName("input-number");
+    let linhas = [[],[],[],[],[],[],[],[],[]];
+    for (let l = 0; l < 9; l++) {
+        let limite = Math.trunc(l/3) * 3;   
+        for(let i = limite; i < limite+3; i++) {
+            let limite2 = Math.trunc(l%3)*3;
+            for(let j = limite2; j < limite2+3; j++) {
+                linhas[l].push(inputs[(i*9)+j].value);
+            }
+        }
+    }
+    const data = await fetch(baseURL, {
+            method: "POST",
+            body: JSON.stringify({"linha": linhas}),
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+        .then(res => res.json())
+        .catch(e => console.log(e))
+    return data
+}
 
-// const validaTabuleiro = async () => {
-//     const tabuleiro = await validarApi();
-//     console.log(tabuleiro)
-//     return(tabuleiro)
-// }
+const validaTabuleiro = async () => {
+    const tabuleiro = await validarApi();
+    console.log(tabuleiro)
+    return(tabuleiro)
+}
