@@ -8,28 +8,28 @@ window.onload = function () {
     };
 
     function tratarErroRetorno(e) {
-        for (let i = 0; i < 9; i++) {
-            for (let j = 0; j < 9; j++) {
-                insertCell("cell", " ", i, i, j);
-            }
-        }
-        removeInput()
+        readTextFile("src/tabuleiroPadrao.json", function(text) {
+            teste(JSON.parse(text))
+        });
     }
 
     const buildTabuleiro = async () => {
         const tabuleiro = await getTabuleiro();
-        console.log(tabuleiro.retorno);
+        teste(tabuleiro)
+    };
+
+    function teste(data) {
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
-                if(tabuleiro.retorno[i][j].valor !== ' ') {
-                    insertCell("cell", tabuleiro.retorno[i][j].valor, tabuleiro.retorno[i][j].bloco, tabuleiro.retorno[i][j].linha, tabuleiro.retorno[i][j].coluna);
+                if(data.retorno[i][j].valor !== ' ') {
+                    insertCell("cell", data.retorno[i][j].valor, data.retorno[i][j].bloco, data.retorno[i][j].linha, data.retorno[i][j].coluna);
                 } else {
-                    insertCell("input-cell", " ",bloco=tabuleiro.retorno[i][j].bloco, i, j);
+                    insertCell("input-cell", " ",bloco=data.retorno[i][j].bloco, i, j);
                 }
             }
         }
         removeInput()
-    };
+    }
 
     function removeInput() {
         const input = document.getElementsByClassName("input-number")[0];
@@ -59,6 +59,18 @@ window.onload = function () {
 
     buildTabuleiro();
 } 
+
+function readTextFile(file, callback) { 
+    var rawFile = new XMLHttpRequest(); 
+    rawFile.overrideMimeType("application/json"); 
+    rawFile.open("GET", file, true); 
+    rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4 && rawFile.status == "200") {
+            callback(rawFile.responseText);
+        }
+    }
+    rawFile.send(null);
+}
 
 function allowJustNumbers(event) {
     if(event.srcElement.value.length > 0) return false
@@ -102,7 +114,6 @@ function preencherCampo(event) {
 }
 
 function removerValor(event) {
-    console.log(event.srcElement.classList[0]);
     event.srcElement.value = ""
 }
 
