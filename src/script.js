@@ -8,10 +8,9 @@ window.onload = function () {
     };
 
     function tratarErroRetorno(e) {
-        console.log(e);
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
-                insertCell("input-cell", "", i);
+                insertCell("cell", " ", i, i, j);
             }
         }
         removeInput()
@@ -23,9 +22,9 @@ window.onload = function () {
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 if(tabuleiro.retorno[i][j].valor !== ' ') {
-                    insertCell("cell", tabuleiro.retorno[i][j].valor, tabuleiro.retorno[i][j].bloco);
+                    insertCell("cell", tabuleiro.retorno[i][j].valor, tabuleiro.retorno[i][j].bloco, tabuleiro.retorno[i][j].linha, tabuleiro.retorno[i][j].coluna);
                 } else {
-                    insertCell("input-cell", " ",bloco=tabuleiro.retorno[i][j].bloco);
+                    insertCell("input-cell", " ",bloco=tabuleiro.retorno[i][j].bloco, i, j);
                 }
             }
         }
@@ -37,19 +36,21 @@ window.onload = function () {
         input.parentNode.removeChild(input);
     }
 
-    function insertCell(classe="cell", numero=0, bloco=0) {
+    function insertCell(classe="cell", numero=0, bloco=0, i=0, j=0) {
         const container = document.getElementById(`bloco-${bloco+1}`);
         const cell = document.createElement("div");
         const elementoOriginal = document.getElementsByClassName("input-number")[0];
         const input = elementoOriginal.cloneNode(false);
         if (classe === "cell") {
             input.classList.add("default-number");
-            input.setAttribute('readonly', true);
+            input.setAttribute('disabled', true);
             input.value = numero;
         } else {
             input.classList.add("input-number");
 
         }
+        input.classList.add(`linha-${i}`);
+        input.classList.add(`coluna-${j}`);
         input.classList.add("dark-mode");
         cell.appendChild(input);
         cell.classList.add(classe);
@@ -66,10 +67,25 @@ function allowJustNumbers(event) {
 
 function addClassSelected(event) {
     const selecioando = document.getElementsByClassName("selected");
-    for(let i = 0; i< selecioando.length; i++) {
-        selecioando[i].classList.remove("selected")
+    const auxiliares = document.getElementsByClassName("selecionado-auxiliar");
+    for(let i = 0; i < selecioando.length; i++) {
+        selecioando[i].classList.remove("selected");
+    }
+    const len = auxiliares.length
+    for(let i = 0; i < len; i++) {
+        auxiliares[0].classList.remove("selecionado-auxiliar");
     }
     event.srcElement.classList.add("selected")
+    const linha = event.srcElement.classList.value[event.srcElement.classList.value.indexOf("linha-")+6];
+    const coluna = event.srcElement.classList.value[event.srcElement.classList.value.indexOf("coluna-")+7];
+    const ElementosNalinha = document.getElementsByClassName(`linha-${linha}`);
+    const ElementosNaColuna = document.getElementsByClassName(`coluna-${coluna}`);
+    for(let i = 0; i < ElementosNalinha.length; i++){
+        ElementosNalinha[i].classList.add("selecionado-auxiliar");
+    }
+    for(let i = 0; i < ElementosNaColuna.length; i++){
+        ElementosNaColuna[i].classList.add("selecionado-auxiliar");
+    }
 }
 
 function removeClassSelected() {
@@ -86,6 +102,7 @@ function preencherCampo(event) {
 }
 
 function removerValor(event) {
+    console.log(event.srcElement.classList[0]);
     event.srcElement.value = ""
 }
 

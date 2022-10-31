@@ -112,6 +112,7 @@ body {
     text-align: center;
     font-size: 26px;
     padding: 0;
+    caret-color: transparent;
 }
 
 .input-number:active, .input-number:focus, .input-number:hover {
@@ -156,7 +157,7 @@ body {
 }
 
 .input-number::selection {
-  text-decoration: none;  
+  text-decoration: none;
 }
 
 .dark-mode {
@@ -217,5 +218,21 @@ body {
 }
 
 #submit.light-mode:hover {
+  background-color: var(--light-theme-background-hover);
+}
+
+.selecionado-auxiliar.dark-mode {
+  background-color: var(--dark-theme-background-hover);
+}
+
+.selecionado-auxiliar.default-number.dark-mode:hover {
+  background-color: var(--dark-theme-background-hover);
+}
+
+.selecionado-auxiliar.light-mode {
+  background-color: var(--light-theme-background-hover);
+}
+
+.selecionado-auxiliar.default-number.light-mode:hover {
   background-color: var(--light-theme-background-hover);
 }
