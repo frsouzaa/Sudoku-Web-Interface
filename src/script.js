@@ -51,6 +51,7 @@ window.onload = function () {
         }
         input.classList.add(`linha-${i}`);
         input.classList.add(`coluna-${j}`);
+        input.classList.add(`bloco-${bloco}`);
         input.classList.add("dark-mode");
         cell.appendChild(input);
         cell.classList.add(classe);
@@ -90,13 +91,14 @@ function addClassSelected(event) {
     event.srcElement.classList.add("selected")
     const linha = event.srcElement.classList.value[event.srcElement.classList.value.indexOf("linha-")+6];
     const coluna = event.srcElement.classList.value[event.srcElement.classList.value.indexOf("coluna-")+7];
+    const bloco = event.srcElement.classList.value[event.srcElement.classList.value.indexOf("bloco-")+6];
     const ElementosNalinha = document.getElementsByClassName(`linha-${linha}`);
     const ElementosNaColuna = document.getElementsByClassName(`coluna-${coluna}`);
+    const ElementosNoBloco = document.getElementsByClassName(`bloco-${bloco}`);
     for(let i = 0; i < ElementosNalinha.length; i++){
         ElementosNalinha[i].classList.add("selecionado-auxiliar");
-    }
-    for(let i = 0; i < ElementosNaColuna.length; i++){
         ElementosNaColuna[i].classList.add("selecionado-auxiliar");
+        ElementosNoBloco[i].classList.add("selecionado-auxiliar");
     }
 }
 
@@ -122,14 +124,18 @@ function mudarCor() {
         document.getElementById("title"),
         document.getElementById("main"),
         document.getElementById("content"),
-        document.getElementById("submit"),
+        document.getElementById("validar"),
         document.getElementById("cabecalho"),
         document.getElementById("btn-tema"),
         document.getElementById("grid"),
         document.getElementById("mudar-tema"),
+        document.getElementById("preencher"),
+        document.getElementById("contatos"),
+        document.getElementById("rodape"),
         document.getElementsByClassName("btn-preencher"),
         document.getElementsByClassName("input-number"),
-        document.getElementsByClassName("bloco-grid")
+        document.getElementsByClassName("bloco-grid"),
+        document.getElementsByClassName("contato")
     ];
     
     for(let i = 0; i < elemetos.length; i++) {
@@ -147,8 +153,7 @@ function mudarCor() {
     elemetos[7].classList.toggle("fa-sun");
 }
 
-const validarApi = async () => {
-    const baseURL = "http://localhost:5000/validaTabuleiro";
+function criarTabuleiroApi() {
     const inputs = document.getElementsByClassName("input-number");
     let linhas = [[],[],[],[],[],[],[],[],[]];
     for (let l = 0; l < 9; l++) {
@@ -160,9 +165,15 @@ const validarApi = async () => {
             }
         }
     }
+    return linhas
+}
+
+const validarApi = async () => {
+    const baseURL = "http://localhost:5000/validaTabuleiro";
+    const linhas = criarTabuleiroApi();
     const data = await fetch(baseURL, {
             method: "POST",
-            body: JSON.stringify({"linha": linhas}),
+            body: JSON.stringify({"linhas": linhas}),
             headers: {"Content-type": "application/json; charset=UTF-8"}
         })
         .then(res => res.json())
@@ -172,6 +183,31 @@ const validarApi = async () => {
 
 const validaTabuleiro = async () => {
     const tabuleiro = await validarApi();
-    console.log(tabuleiro)
+    const h2 = document.getElementById("status");
+    if(tabuleiro.status === "ok") {
+        h2.classList.add("valido");
+        h2.innerHTML = "Você Venceu!!!";
+    } else {
+        h2.classList.add("invalido");
+        h2.innerHTML = "Você Perdeu";
+    }
+}
+
+const preencheApi = async () => {
+    const baseURL = "http://localhost:5000/preencheTabuleiro";
+    const linhas = criarTabuleiroApi();
+    const data = await fetch(baseURL, {
+            method: "POST",
+            body: JSON.stringify({"linhas": linhas}),
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+        .then(res => res.json())
+        .catch(e => console.log(e))
+    return data
+}
+
+const preencheTabuleiro = async () => {
+    const tabuleiro = await preencheApi();
+    console.log(tabuleiro.tabuleiro.length)
     return(tabuleiro)
 }

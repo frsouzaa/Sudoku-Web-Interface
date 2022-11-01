@@ -10,7 +10,8 @@
 }
 
 * {
-  transition: .9s ease all;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -20,10 +21,8 @@ body {
   background-color: var(--dark-theme-background);
 }
 
-/* transition: .9s ease all; */
-
 #content {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -32,14 +31,44 @@ body {
 }
 
 #cabecalho {
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
+#status {
+  font-size: 27px;
+  margin-bottom: 15px;
+}
+
+.invalido {
+  color: red;
+}
+
+.valido {
+  color: green;
+}
+
+#rodape {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: .3s ease all !important;
+}
+
+#contatos {
+  margin: 0 0 18px 18px;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+}
+
 #main {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -53,16 +82,17 @@ body {
   font-size: 60px;
 }
 
-#submit {
-  font-size: 25px;
+#validar, #preencher {
+  font-size: 30px;
   border: none;
   margin-top: 15px;
   padding: 5px;
   border-bottom: 2px solid;
+  border-color: transparent;
   padding-bottom: 0;
 }
 
-#submit:hover {
+#validar:hover, #preencher:hover {
   cursor: pointer;
   transform: scale(1.03);
   transition: .3s ease all !important;
@@ -113,11 +143,11 @@ body {
     font-size: 26px;
     padding: 0;
     caret-color: transparent;
+    transition: .3s ease all !important;
 }
 
 .input-number:active, .input-number:focus, .input-number:hover {
   outline: none;
-  transition: .3s ease all !important;
 }
 
 .default-number:active, .default-number:focus, .default-number:hover {
@@ -125,11 +155,12 @@ body {
 }
 
 .btn-preencher {
-  font-size: 25px;
+  font-size: 30px;
   border: none;
   margin-top: 15px;
   padding: 5px;
   border-bottom: 2px solid;
+  border-color: transparent;
   padding-bottom: 0;
   border-radius: 2px;
   transition: .3s ease all !important;
@@ -184,10 +215,17 @@ body {
 
 .btn-preencher.dark-mode:hover {
   background-color: var(--dark-theme-background-hover);
+  border-color: var(--dark-theme-text);
 }
 
-#submit.dark-mode:hover {
+#validar.dark-mode:hover {
   background-color: var(--dark-theme-background-hover);
+  border-color: var(--dark-theme-text);
+}
+
+#preencher.dark-mode:hover {
+  background-color: var(--dark-theme-background-hover);
+  border-color: var(--dark-theme-text);
 }
 
 
@@ -215,10 +253,17 @@ body {
 
 .btn-preencher.light-mode:hover {
   background-color: var(--light-theme-background-hover);
+  border-color: var(--light-theme-second-color);
 }
 
-#submit.light-mode:hover {
+#validar.light-mode:hover {
   background-color: var(--light-theme-background-hover);
+  border-color: var(--light-theme-second-color);
+}
+
+#preencher.light-mode:hover {
+  background-color: var(--light-theme-background-hover);
+  border-color: var(--light-theme-second-color);
 }
 
 .selecionado-auxiliar.dark-mode {

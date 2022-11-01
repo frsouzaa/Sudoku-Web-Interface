@@ -13,12 +13,13 @@
     <div id="content">
         <header id="cabecalho" class="dark-mode">
             <button id="btn-tema" onclick="mudarCor()">
-                <i id="mudar-tema" class="fa-regular fa-sun dark-mode"></i>
+                <i id="mudar-tema" class="fa-solid fa-sun dark-mode"></i>
             </button>
         </header>
         <main id="main" class="dark-mode">
             <input class="input-number dark-mode" onkeypress="return allowJustNumbers(event)" onclick="addClassSelected(event)" ondblclick="removerValor(event)">
             <h1 id="title" class="dark-mode">SUDOKU</h1>
+            <h2 id="status"></h2>
             <div id="tabuleiro">
                 <div id="grid" class="dark-mode">
                     <div class="bloco-grid dark-mode" id="bloco-1"></div>
@@ -43,8 +44,22 @@
                 <button class="btn-preencher dark-mode" id="btn8" onclick="preencherCampo(event)">8</button>
                 <button class="btn-preencher dark-mode" id="btn9" onclick="preencherCampo(event)">9</button>
             </div>
-            <button class="dark-mode" id="submit" onclick="validaTabuleiro()">Enviar</button>
+            <div id="opcoes">
+                <button class="dark-mode" id="validar" onclick="validaTabuleiro()">Validar</button>
+                <button class="dark-mode" id="preencher" onclick="preencheTabuleiro()">Preencher</button>
+            </div>
         </main>
+        <footer id="rodape" class="dark-mode">
+            <div id="contatos" class="dark-mode">
+                <a href="https://github.com/frsouzaa" target="_blank" class="dark-mode contato">
+                    <i class="fa-brands fa-github-alt"></i> Github
+                </a>
+                <br>
+                <a href="https://www.linkedin.com/in/felipe-ribeiro-de-souza-953871211/" target="_blank" class="dark-mode contato">
+                    <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+                </a>
+            </div>
+        </footer>
     </div>
 </body>
 </html>
