@@ -1,5 +1,5 @@
 :root {
-  --light-theme-backgorund: #fefbc9;
+  --light-theme-backgorund: #fcf8b3dd;
   --light-theme-main-color: #3d3738;
   --light-theme-background-hover: #dbdbdb;
   --light-theme-second-color: #6c039c;
@@ -19,11 +19,13 @@ body {
   padding: 0;
   font-family: monospace, 'Courier New', Courier;
   background-color: var(--dark-theme-background);
+  height: 100vh;
+  width: 100vw;
 }
 
 #content {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,7 +62,7 @@ body {
 
 #contatos {
   margin: 0 0 18px 18px;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 a {
@@ -69,7 +71,7 @@ a {
 
 #main {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

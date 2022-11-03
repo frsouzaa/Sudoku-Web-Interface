@@ -9,57 +9,57 @@ window.onload = function () {
 
     function tratarErroRetorno(e) {
         readTextFile("src/tabuleiroPadrao.json", function(text) {
-            teste(JSON.parse(text))
+            addValores(JSON.parse(text))
         });
     }
 
     const buildTabuleiro = async () => {
         const tabuleiro = await getTabuleiro();
-        teste(tabuleiro)
+        addValores(tabuleiro)
     };
-
-    function teste(data) {
-        for (let i = 0; i < 9; i++) {
-            for (let j = 0; j < 9; j++) {
-                if(data.retorno[i][j].valor !== ' ') {
-                    insertCell("cell", data.retorno[i][j].valor, data.retorno[i][j].bloco, data.retorno[i][j].linha, data.retorno[i][j].coluna);
-                } else {
-                    insertCell("input-cell", " ",bloco=data.retorno[i][j].bloco, i, j);
-                }
-            }
-        }
-        removeInput()
-    }
-
-    function removeInput() {
-        const input = document.getElementsByClassName("input-number")[0];
-        input.parentNode.removeChild(input);
-    }
-
-    function insertCell(classe="cell", numero=0, bloco=0, i=0, j=0) {
-        const container = document.getElementById(`bloco-${bloco+1}`);
-        const cell = document.createElement("div");
-        const elementoOriginal = document.getElementsByClassName("input-number")[0];
-        const input = elementoOriginal.cloneNode(false);
-        if (classe === "cell") {
-            input.classList.add("default-number");
-            input.setAttribute('disabled', true);
-            input.value = numero;
-        } else {
-            input.classList.add("input-number");
-
-        }
-        input.classList.add(`linha-${i}`);
-        input.classList.add(`coluna-${j}`);
-        input.classList.add(`bloco-${bloco}`);
-        input.classList.add("dark-mode");
-        cell.appendChild(input);
-        cell.classList.add(classe);
-        container.appendChild(cell);
-    }
 
     buildTabuleiro();
 } 
+
+function insertCell(classe="cell", numero=0, bloco=0, i=0, j=0) {
+    const container = document.getElementById(`bloco-${bloco+1}`);
+    const cell = document.createElement("div");
+    const elementoOriginal = document.getElementsByClassName("input-number")[0];
+    const input = elementoOriginal.cloneNode(false);
+    if (classe === "cell") {
+        input.classList.add("default-number");
+        input.setAttribute('disabled', true);
+        input.value = numero;
+    } else {
+        input.classList.add("input-number");
+
+    }
+    input.classList.add(`linha-${i}`);
+    input.classList.add(`coluna-${j}`);
+    input.classList.add(`bloco-${bloco}`);
+    input.classList.add("dark-mode");
+    cell.appendChild(input);
+    cell.classList.add(classe);
+    container.appendChild(cell);
+}
+
+function removeInput() {
+    const input = document.getElementsByClassName("input-number")[0];
+    input.parentNode.removeChild(input);
+}
+
+function addValores(data) {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if(data.retorno[i][j].valor !== '') {
+                insertCell("cell", data.retorno[i][j].valor, data.retorno[i][j].bloco, i, j);
+            } else {
+                insertCell("input-cell", " ",data.retorno[i][j].bloco, i, j);
+            }
+        }
+    }
+    removeInput()
+}
 
 function readTextFile(file, callback) { 
     var rawFile = new XMLHttpRequest(); 
@@ -171,6 +171,7 @@ function criarTabuleiroApi() {
 const validarApi = async () => {
     const baseURL = "http://localhost:5000/validaTabuleiro";
     const linhas = criarTabuleiroApi();
+    console.log(linhas)
     const data = await fetch(baseURL, {
             method: "POST",
             body: JSON.stringify({"linhas": linhas}),
@@ -184,11 +185,12 @@ const validarApi = async () => {
 const validaTabuleiro = async () => {
     const tabuleiro = await validarApi();
     const h2 = document.getElementById("status");
+    console.log(tabuleiro)
     if(tabuleiro.status === "ok") {
-        h2.classList.add("valido");
+        h2.classList.toggle("valido");
         h2.innerHTML = "Você Venceu!!!";
     } else {
-        h2.classList.add("invalido");
+        h2.classList.toggle("invalido");
         h2.innerHTML = "Você Perdeu";
     }
 }
@@ -208,6 +210,14 @@ const preencheApi = async () => {
 
 const preencheTabuleiro = async () => {
     const tabuleiro = await preencheApi();
-    console.log(tabuleiro.tabuleiro.length)
-    return(tabuleiro)
+    console.log(tabuleiro.retorno);
+    const inputs = document.getElementsByClassName("input-number");
+    let k = 0;
+    for(let i = 0; i < 9; i++) {
+        for(let j = 0; j < 9; j++) {
+            inputs[k].value = tabuleiro.retorno[i][j].valor;
+            k++;
+        }
+    }
+    return(tabuleiro);
 }
