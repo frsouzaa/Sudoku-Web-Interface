@@ -15,7 +15,11 @@ window.onload = function () {
 
     const buildTabuleiro = async () => {
         const tabuleiro = await getTabuleiro();
-        addValores(tabuleiro)
+        if(tabuleiro) {
+            addValores(tabuleiro);
+        }
+        document.getElementById("main").classList.remove("escondido");
+        document.getElementById("carregando").classList.add("escondido");
     };
 
     buildTabuleiro();
@@ -171,7 +175,6 @@ function criarTabuleiroApi() {
 const validarApi = async () => {
     const baseURL = "http://localhost:5000/validaTabuleiro";
     const linhas = criarTabuleiroApi();
-    console.log(linhas)
     const data = await fetch(baseURL, {
             method: "POST",
             body: JSON.stringify({"linhas": linhas}),
@@ -185,12 +188,13 @@ const validarApi = async () => {
 const validaTabuleiro = async () => {
     const tabuleiro = await validarApi();
     const h2 = document.getElementById("status");
-    console.log(tabuleiro)
     if(tabuleiro.status === "ok") {
-        h2.classList.toggle("valido");
+        h2.classList.add("valido");
+        h2.classList.remove("invalido");
         h2.innerHTML = "Você Venceu!!!";
     } else {
-        h2.classList.toggle("invalido");
+        h2.classList.add("invalido");
+        h2.classList.remove("valido");
         h2.innerHTML = "Você Perdeu";
     }
 }
@@ -210,13 +214,16 @@ const preencheApi = async () => {
 
 const preencheTabuleiro = async () => {
     const tabuleiro = await preencheApi();
-    console.log(tabuleiro.retorno);
     const inputs = document.getElementsByClassName("input-number");
-    let k = 0;
-    for(let i = 0; i < 9; i++) {
-        for(let j = 0; j < 9; j++) {
-            inputs[k].value = tabuleiro.retorno[i][j].valor;
-            k++;
+    for (let l = 0; l < 9; l++) {
+        let k = 0;
+        let limite = Math.trunc(l/3) * 3;   
+        for(let i = limite; i < limite+3; i++) {
+            let limite2 = Math.trunc(l%3)*3;
+            for(let j = limite2; j < limite2+3; j++) {
+                inputs[(i*9)+j].value = tabuleiro.retorno[l][k].valor;
+                k++;
+            }
         }
     }
     return(tabuleiro);

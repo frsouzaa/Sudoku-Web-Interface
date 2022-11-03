@@ -8,6 +8,7 @@
     <script src="src/script.js"></script>
     <script src="https://kit.fontawesome.com/07a4cfc957.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="src/style.css">
+    <link rel="shortcut icon" type="imagex/png" href="src/icon.png">
 </head>
 <body>
     <div id="content">
@@ -16,7 +17,10 @@
                 <i id="mudar-tema" class="fa-solid fa-sun dark-mode"></i>
             </button>
         </header>
-        <main id="main" class="dark-mode">
+        <div id="carregando">
+            <i class="fa-solid fa-spinner fa-spin-pulse fa-spin-reverse dark-mode"></i>
+        </div>
+        <main id="main" class="dark-mode escondido">
             <input class="input-number dark-mode" onkeypress="return allowJustNumbers(event)" onclick="addClassSelected(event)" ondblclick="removerValor(event)">
             <h1 id="title" class="dark-mode">SUDOKU</h1>
             <h2 id="status"></h2>
