@@ -32,9 +32,10 @@ function insertCell(classe="cell", numero=0, bloco=0, i=0, j=0) {
     const input = elementoOriginal.cloneNode(false);
     if (classe === "cell") {
         input.classList.add("default-number");
-        input.setAttribute('disabled', true);
+        // input.setAttribute('disabled', true);
         input.value = numero;
-    } else {
+        input.classList.add(`valor-${numero}`);
+} else {
         input.classList.add("input-number");
 
     }
@@ -83,13 +84,14 @@ function allowJustNumbers(event) {
 }
 
 function addClassSelected(event) {
-    const selecioando = document.getElementsByClassName("selected");
-    const auxiliares = document.getElementsByClassName("selecionado-auxiliar");
-    for(let i = 0; i < selecioando.length; i++) {
-        selecioando[i].classList.remove("selected");
+    let selecioando = document.getElementsByClassName("selected");
+    let auxiliares = document.getElementsByClassName("selecionado-auxiliar");
+    const lenSel = selecioando.length;
+    const lenAux = auxiliares.length;
+    for(let i = 0; i < lenSel; i++) {
+        selecioando[0].classList.remove("selected");
     }
-    const len = auxiliares.length
-    for(let i = 0; i < len; i++) {
+    for(let i = 0; i < lenAux; i++) {
         auxiliares[0].classList.remove("selecionado-auxiliar");
     }
     event.srcElement.classList.add("selected")
@@ -104,23 +106,23 @@ function addClassSelected(event) {
         ElementosNaColuna[i].classList.add("selecionado-auxiliar");
         ElementosNoBloco[i].classList.add("selecionado-auxiliar");
     }
-}
-
-function removeClassSelected() {
-    const selecioando = document.getElementsByClassName("selected");
-    for(let i = 0; i< selecioando.length; i++) {
-        selecioando[i].classList.remove("selected")
+    if(event.srcElement.classList.value.indexOf("valor-") != -1) {
+        const valor = event.srcElement.classList.value[event.srcElement.classList.value.indexOf("valor-")+6];
+        const ElementosComValor = document.getElementsByClassName(`valor-${valor}`);
+        for(let i = 0; i < ElementosComValor.length; i++) {
+            ElementosComValor[i].classList.add("selected");
+        }
+        
     }
 }
 
-function preencherCampo(event) {
+function preencherCampo(valor) {
     const selecioando = document.getElementsByClassName("selected")[0];
-    selecioando.value = event.srcElement.id[3]
-    selecioando.classList.remove("selected")
+    selecioando.value = valor;
 }
 
 function removerValor(event) {
-    event.srcElement.value = ""
+    event.srcElement.value = "";
 }
 
 function mudarCor() {
@@ -134,6 +136,7 @@ function mudarCor() {
         document.getElementById("grid"),
         document.getElementById("mudar-tema"),
         document.getElementById("preencher"),
+        document.getElementById("limpar"),
         document.getElementById("contatos"),
         document.getElementById("rodape"),
         document.getElementsByClassName("btn-preencher"),

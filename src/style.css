@@ -1,12 +1,14 @@
 :root {
   --light-theme-backgorund: #fdfce8dd;
   --light-theme-main-color: #3d3738;
-  --light-theme-background-hover: #dbdbdb;
+  --light-theme-background-hover: #e3a6ff;
+  --light-theme-background-auxiliares: #f3daff;
   --light-theme-second-color: #6c039c;
 
   --dark-theme-text: #dca23d;
-  --dark-theme-background: #3d3738;
-  --dark-theme-background-hover: #272324;
+  --dark-theme-background: #423b3c;
+  --dark-theme-background-hover: #1a1617;
+  --dark-theme-background-auxiliares: #665a5c;
 }
 
 * {
@@ -66,7 +68,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  transition: .3s ease all !important;
+  /* transition: .3s ease all !important; */
 }
 
 #contatos {
@@ -93,7 +95,7 @@ a {
   font-size: 60px;
 }
 
-#validar, #preencher {
+#validar, #preencher, #limpar {
   font-size: 30px;
   border: none;
   margin-top: 15px;
@@ -103,15 +105,15 @@ a {
   padding-bottom: 0;
 }
 
-#validar:hover, #preencher:hover {
+#validar:hover, #preencher:hover, #limpar:hover {
   cursor: pointer;
   transform: scale(1.03);
-  transition: .3s ease all !important;
+  /* transition: .3s ease all !important; */
 }
 
 #mudar-tema:hover {
   transform: scale(1.3);
-  transition-property: transform 1s;
+  /* transition-property: transform 1s; */
 }
 
 #tabuleiro {
@@ -126,15 +128,7 @@ a {
 }
 
 .bloco-grid {
-  grid-template-columns: auto auto auto; 
-  border: 1px solid;
   box-sizing: border-box;
-}
-
-@media screen and (max-width:768px) {
-  #grid, .bloco-grid { 
-    grid-template-columns: auto; 
-  }
 }
 
 .cell, .input-cell {
@@ -154,11 +148,12 @@ a {
     font-size: 26px;
     padding: 0;
     caret-color: transparent;
-    transition: .3s ease all !important;
+    /* transition: .3s ease all !important; */
 }
 
 .input-number:active, .input-number:focus, .input-number:hover {
   outline: none;
+  cursor: default;
 }
 
 .default-number:active, .default-number:focus, .default-number:hover {
@@ -174,7 +169,7 @@ a {
   border-color: transparent;
   padding-bottom: 0;
   border-radius: 2px;
-  transition: .3s ease all !important;
+  /* transition: .3s ease all !important; */
 }
 
 #btn-tema {
@@ -186,7 +181,7 @@ a {
   font-size: 20px;
   padding: 0;
   text-align: center;
-  transition: .3s ease all !important;
+  /* transition: .3s ease all !important; */
 }
 
 #btn-tema:hover {
@@ -205,7 +200,7 @@ a {
 .dark-mode {
   background-color: var(--dark-theme-background);
   color: var(--dark-theme-text);
-  transition: .3s ease all !important;
+  /* transition: .3s ease all !important; */
 }
 
 .default-number.dark-mode {
@@ -217,7 +212,7 @@ a {
 }
 
 .default-number.dark-mode:hover {
-  background-color: var(--dark-theme-background);
+  background-color: var(--dark-theme-background-hover);
 }
 
 #grid.dark-mode, .bloco-grid.dark-mode {
@@ -225,25 +220,19 @@ a {
 }
 
 .btn-preencher.dark-mode:hover {
-  background-color: var(--dark-theme-background-hover);
+  background-color: var(--dark-theme-background-auxiliares);
   border-color: var(--dark-theme-text);
 }
 
-#validar.dark-mode:hover {
-  background-color: var(--dark-theme-background-hover);
+#validar.dark-mode:hover, #preencher.dark-mode:hover, #limpar.dark-mode:hover {
+  background-color: var(--dark-theme-background-auxiliares);
   border-color: var(--dark-theme-text);
 }
-
-#preencher.dark-mode:hover {
-  background-color: var(--dark-theme-background-hover);
-  border-color: var(--dark-theme-text);
-}
-
 
 .light-mode {
   background-color: var(--light-theme-backgorund);
   color: var(--light-theme-second-color);
-  transition: .3s ease all !important;
+  /* transition: .3s ease all !important; */
 }
 
 .default-number.light-mode {
@@ -255,7 +244,7 @@ a {
 }
 
 .default-number.light-mode:hover {
-  background-color: var(--light-theme-backgorund);
+  background-color: var(--light-theme-background-hover);
 }
 
 #grid.light-mode, .bloco-grid.light-mode {
@@ -263,22 +252,17 @@ a {
 }
 
 .btn-preencher.light-mode:hover {
-  background-color: var(--light-theme-background-hover);
+  background-color: var(--light-theme-background-auxiliares);
   border-color: var(--light-theme-second-color);
 }
 
-#validar.light-mode:hover {
-  background-color: var(--light-theme-background-hover);
-  border-color: var(--light-theme-second-color);
-}
-
-#preencher.light-mode:hover {
-  background-color: var(--light-theme-background-hover);
+#validar.light-mode:hover,#preencher.light-mode:hover, #limpar.light-mode:hover {
+  background-color: var(--light-theme-background-auxiliares);
   border-color: var(--light-theme-second-color);
 }
 
 .selecionado-auxiliar.dark-mode {
-  background-color: var(--dark-theme-background-hover);
+  background-color: var(--dark-theme-background-auxiliares);
 }
 
 .selecionado-auxiliar.default-number.dark-mode:hover {
@@ -286,9 +270,17 @@ a {
 }
 
 .selecionado-auxiliar.light-mode {
-  background-color: var(--light-theme-background-hover);
+  background-color: var(--light-theme-background-auxiliares);
 }
 
 .selecionado-auxiliar.default-number.light-mode:hover {
   background-color: var(--light-theme-background-hover);
+}
+
+.selected.light-mode {
+  background-color: var(--light-theme-background-hover);
+}
+
+.selected.dark-mode {
+  background-color: var(--dark-theme-background-hover);
 }
