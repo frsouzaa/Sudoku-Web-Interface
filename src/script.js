@@ -3,7 +3,7 @@ let originalTable = null;
 
 window.onload = function () {
     const getTabuleiro = async () => {
-        const baseURL = "http://localhost:5000/tabueleiroJogavel"
+        const baseURL = "http://localhost:8080/tabueleiroJogavel"
         const data = await fetch(baseURL)
             .then(res => res.json())
             .catch(e => tratarErroRetorno(e))
@@ -28,7 +28,13 @@ window.onload = function () {
     };
 
     buildTabuleiro();
-} 
+
+    document.addEventListener('keydown', function(event) {
+        if(event.key === "Escape") {
+            tirarOFoco()
+        }
+    });
+}
 
 function insertCell(classe=1, numero=0, bloco=0, i=0, j=0) {
     const container = document.getElementById(`bloco-${bloco+1}`);
@@ -76,7 +82,7 @@ function readTextFile(file, callback) {
     rawFile.overrideMimeType("application/json"); 
     rawFile.open("GET", file, true); 
     rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
+        if (rawFile.readyState === 4 && rawFile.status === "200") {
             callback(rawFile.responseText);
         }
     }
@@ -84,8 +90,21 @@ function readTextFile(file, callback) {
 }
 
 function allowJustNumbers(event) {
-    if(event.srcElement.value.length > 0) return false
-    return event.charCode >= 49 && event.charCode <= 57;
+    if(lastSelected.value === (event.charCode - 48).toString()) {
+        lastSelected.value = "";
+        return false;
+    }
+    if(event.charCode >= 49 && event.charCode <= 57) {
+        lastSelected.value = event.charCode - 48;
+        return false;
+    }
+    return false;
+}
+
+function tirarOFoco() {
+    limpaSelecionados();
+    lastSelected.blur();
+    lastSelected = null;
 }
 
 function limpaSelecionados() {
@@ -116,13 +135,13 @@ function addSelecionadoAuxiliar(elemento) {
 }
 
 function addClassSelected(elemento) {
-    if(elemento.classList.value.indexOf("valor-") != -1) {
-        const valor = elemento.classList.value[elemento.classList.value.indexOf("valor-")+6];
-        const ElementosComValor = document.getElementsByClassName(`valor-${valor}`);
-        for(let i = 0; i < ElementosComValor.length; i++) {
-            ElementosComValor[i].classList.add("selected");
-        }
-        
+    if(elemento.classList.value.indexOf("valor-") === -1) {
+        return;
+    }
+    const valor = elemento.classList.value[elemento.classList.value.indexOf("valor-")+6];
+    const ElementosComValor = document.getElementsByClassName(`valor-${valor}`);
+    for(let i = 0; i < ElementosComValor.length; i++) {
+        ElementosComValor[i].classList.add("selected");
     }
 }
 
@@ -135,26 +154,29 @@ function selecionaAuxiliares(event) {
 }
 
 function preencherCampo(valor) {
-    if(!lastSelected.classList.contains("default-number")) {
-        if(lastSelected.classList.value.indexOf("valor-") != -1) {
-            const valorAtual = lastSelected.classList.value[lastSelected.classList.value.indexOf("valor-")+6];
-            lastSelected.classList.remove(`valor-${valorAtual}`);
-        }
-        if(lastSelected.value == valor) {
-            lastSelected.value = "";
-        } else {
-            lastSelected.value = valor;
-            lastSelected.classList.add(`valor-${valor}`);
-        }
-        limpaSelecionados();
-        addSelecionadoAuxiliar(lastSelected);
-        addClassSelected(lastSelected);
+    if(!lastSelected ||
+        lastSelected.classList.contains("default-number")) {
+        return;
     }
+    if(lastSelected.classList.value.indexOf("valor-") !== -1) {
+        const valorAtual = lastSelected.classList.value[lastSelected.classList.value.indexOf("valor-")+6];
+        lastSelected.classList.remove(`valor-${valorAtual}`);
+    }
+    if(lastSelected.value === valor) {
+        lastSelected.value = "";
+    } else {
+        lastSelected.value = valor;
+        lastSelected.classList.add(`valor-${valor}`);
+    }
+    limpaSelecionados();
+    addSelecionadoAuxiliar(lastSelected);
+    addClassSelected(lastSelected);
+    lastSelected.select()
 }
 
 function removerValor(event) {
     event.srcElement.value = "";
-    if(event.srcElement.classList.value.indexOf("valor-") != -1) {
+    if(event.srcElement.classList.value.indexOf("valor-") !== -1) {
         const valorAtual = event.srcElement.classList.value[event.srcElement.classList.value.indexOf("valor-")+6];
         event.srcElement.classList.remove(`valor-${valorAtual}`);
     }
@@ -205,12 +227,11 @@ function criarTabuleiroApi() {
             linhas[i].push(document.getElementsByClassName(`linha-${i} coluna-${j}`)[0].value);
         }
     }
-    console.log(linhas)
     return linhas;
 }
 
 const validarApi = async () => {
-    const baseURL = "http://localhost:5000/validaTabuleiro";
+    const baseURL = "http://localhost:8080/validaTabuleiro";
     const linhas = criarTabuleiroApi();
     const data = await fetch(baseURL, {
             method: "POST",
@@ -228,16 +249,16 @@ const validaTabuleiro = async () => {
     if(tabuleiro.status === "ok") {
         h2.classList.remove("invalido");
         h2.classList.add("valido");
-        h2.innerHTML = "Você Venceu <i class='fa-solid fa-face-laugh-wink'</i>";
+        h2.innerHTML = "Você Venceu <i class='fa-regular fa-face-smile'></i>";
     } else {
         h2.classList.remove("valido");
         h2.classList.add("invalido");
-        h2.innerHTML = "Você Perdeu <i class='fa-solid fa-face-sad-tear'></i>";
+        h2.innerHTML = "Você Perdeu <i class='fa-regular fa-face-sad-tear'></i>";
     }
 }
 
 const preencheApi = async () => {
-    const baseURL = "http://localhost:5000/preencheTabuleiro";
+    const baseURL = "http://localhost:8080/preencheTabuleiro";
     const linhas = criarTabuleiroApi();
     const data = await fetch(baseURL, {
             method: "POST",
@@ -251,27 +272,47 @@ const preencheApi = async () => {
 
 const preencheTabuleiro = async () => {
     const tabuleiro = await preencheApi();
-    const inputs = document.getElementsByClassName("input-number");
-    for (let l = 0; l < 9; l++) {
-        let k = 0;
-        let limite = Math.trunc(l/3) * 3;   
-        for(let i = limite; i < limite+3; i++) {
-            let limite2 = Math.trunc(l%3)*3;
-            for(let j = limite2; j < limite2+3; j++) {
-                inputs[(i*9)+j].value = tabuleiro.retorno[l][k].valor;
-                k++;
-            }
+    const h2 = document.getElementById("status");
+    if(tabuleiro.status === "invalido") {
+        h2.classList.remove("valido");
+        h2.classList.add("invalido");
+        h2.innerHTML = "Não foi possível preencher a partir das respostas informadas <i class='fa-regular fa-face-sad-tear'></i>";
+        setTimeout(() => {
+            h2.innerHTML = "";
+        }, 7000);
+        return;
+    }
+    h2.classList.remove("invalido");
+    h2.classList.add("valido");
+    h2.innerHTML = "Preenchido com sucesso <i class='fa-regular fa-face-smile'</i>";
+    setTimeout(() => {
+        h2.innerHTML = "";
+    }, 5000);
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            let input = document.getElementsByClassName(`linha-${i} coluna-${j}`)[0];
+            let valor = tabuleiro.retorno[i][j].valor;
+            input.value = valor;
+            input.classList.add(`valor-${valor}`);
         }
     }
-    return(tabuleiro);
+    addClassSelected(lastSelected);
+    lastSelected.select();
 }
 
 function limparTabuleiro() {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-            document.getElementsByClassName(`linha-${i} coluna-${j}`)[0].value = originalTable.retorno[i][j].valor
+            input = document.getElementsByClassName(`linha-${i} coluna-${j}`)[0];
+            input.value = originalTable.retorno[i][j].valor
+            if(!originalTable.retorno[i][j].valor &&
+                input.classList.value.indexOf("valor-") !== -1) {
+                const valorAtual = input.classList.value[input.classList.value.indexOf("valor-")+6];
+                input.classList.remove(`valor-${valorAtual}`);
+            }
         }
     }
     const h2 = document.getElementById("status");
     h2.innerHTML = "";
+    tirarOFoco();
 }
