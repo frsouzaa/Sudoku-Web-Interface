@@ -1,21 +1,29 @@
 let lastSelected = null;
 let originalTable = null;
-
+let API = null;
+if (document.URL.includes("127.0.0.1:5500")) {
+    API = "http://localhost:8080";
+} else {
+    API = "http://54.211.171.147:8080/";
+}
 window.onload = function () {
     const getTabuleiro = async () => {
-        const baseURL = "http://localhost:8080/tabueleiroJogavel"
-        const data = await fetch(baseURL)
+        const baseURL = `${API}/tabueleiroJogavel`;
+        const data = await fetch(baseURL, {
+            method: "GET"
+        })
             .then(res => res.json())
-            .catch(e => tratarErroRetorno(e))
+            .catch(e => tratarErroRetorno(e));
         
         originalTable = data;
         return data;
     };
 
-    function tratarErroRetorno(e) {
-        readTextFile("src/tabuleiroPadrao.json", function(text) {
-            addValores(JSON.parse(text))
-        });
+    const tratarErroRetorno = async (e) => {
+        const data = await fetch("https://sudokuapi.s3.amazonaws.com/tabuleiroPadrao.json")
+            .then(res => res.json())
+            .catch(e => console.log(e));
+        addValores(data);
     }
 
     const buildTabuleiro = async () => {
@@ -31,7 +39,7 @@ window.onload = function () {
 
     document.addEventListener('keydown', function(event) {
         if(event.key === "Escape") {
-            tirarOFoco()
+            tirarOFoco();
         }
     });
 }
@@ -75,18 +83,6 @@ function addValores(data) {
         }
     }
     removeInput()
-}
-
-function readTextFile(file, callback) { 
-    var rawFile = new XMLHttpRequest(); 
-    rawFile.overrideMimeType("application/json"); 
-    rawFile.open("GET", file, true); 
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4 && rawFile.status === "200") {
-            callback(rawFile.responseText);
-        }
-    }
-    rawFile.send(null);
 }
 
 function allowJustNumbers(event) {
@@ -194,15 +190,15 @@ function mudarCor() {
         document.getElementById("validar"),
         document.getElementById("cabecalho"),
         document.getElementById("btn-tema"),
-        document.getElementById("grid"),
         document.getElementById("preencher"),
         document.getElementById("limpar"),
         document.getElementById("contatos"),
         document.getElementById("rodape"),
+        document.getElementById("grid"),
         document.getElementsByClassName("btn-preencher"),
-        document.getElementsByClassName("input-number"),
+        document.getElementsByClassName("contato"),
         document.getElementsByClassName("bloco-grid"),
-        document.getElementsByClassName("contato")
+        document.getElementsByClassName("input-number"),
     ];
     
     for(let i = 0; i < elemetos.length; i++) {
@@ -231,7 +227,7 @@ function criarTabuleiroApi() {
 }
 
 const validarApi = async () => {
-    const baseURL = "http://localhost:8080/validaTabuleiro";
+    const baseURL = `${API}/validaTabuleiro`;
     const linhas = criarTabuleiroApi();
     const data = await fetch(baseURL, {
             method: "POST",
@@ -255,10 +251,13 @@ const validaTabuleiro = async () => {
         h2.classList.add("invalido");
         h2.innerHTML = "Você Perdeu <i class='fa-regular fa-face-sad-tear'></i>";
     }
+    setTimeout(() => {
+        h2.innerHTML = "";
+    }, 5000);
 }
 
 const preencheApi = async () => {
-    const baseURL = "http://localhost:8080/preencheTabuleiro";
+    const baseURL = `${API}/preencheTabuleiro`;
     const linhas = criarTabuleiroApi();
     const data = await fetch(baseURL, {
             method: "POST",

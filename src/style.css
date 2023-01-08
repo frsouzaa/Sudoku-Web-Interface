@@ -5,14 +5,14 @@
   --light-theme-background-auxiliares: #f3daff;
   --light-theme-second-color: #7d00b8;
 
-  --dark-theme-text: #dca23d;
-  --dark-theme-background: #423b3c;
+  --dark-theme-text: #ec9c10;
+  --dark-theme-background: #272324;
   --dark-theme-background-hover: #1a1617;
-  --dark-theme-background-auxiliares: #665a5c;
+  --dark-theme-background-auxiliares: #443e3f;
 }
 
 * {
-  transition: .3s ease all !important;
+  transition: .3s ease all;
   margin: 0;
   padding: 0;
 }
@@ -21,7 +21,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: monospace, 'Courier New', Courier;
-  background-color: var(--dark-theme-background);
+  background-color: var(--light-theme-backgorund);
   height: 100vh;
   width: 100vw;
 }
@@ -68,7 +68,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* transition: .3s ease all !important; */
 }
 
 #contatos {
@@ -108,12 +107,10 @@ a {
 #validar:hover, #preencher:hover, #limpar:hover {
   cursor: pointer;
   transform: scale(1.03);
-  /* transition: .3s ease all !important; */
 }
 
 #mudar-tema:hover {
   transform: scale(1.3);
-  /* transition-property: transform 1s; */
 }
 
 #tabuleiro {
@@ -148,7 +145,6 @@ a {
     font-size: 26px;
     padding: 0;
     caret-color: transparent;
-    /* transition: .3s ease all !important; */
 }
 
 .input-number:active, .input-number:focus, .input-number:hover {
@@ -169,7 +165,6 @@ a {
   border-color: transparent;
   padding-bottom: 0;
   border-radius: 2px;
-  /* transition: .3s ease all !important; */
 }
 
 #btn-tema {
@@ -181,7 +176,6 @@ a {
   font-size: 20px;
   padding: 0;
   text-align: center;
-  /* transition: .3s ease all !important; */
 }
 
 #btn-tema:hover {
@@ -200,7 +194,6 @@ a {
 .dark-mode {
   background-color: var(--dark-theme-background);
   color: var(--dark-theme-text);
-  /* transition: .3s ease all !important; */
 }
 
 .default-number.dark-mode {
@@ -232,7 +225,6 @@ a {
 .light-mode {
   background-color: var(--light-theme-backgorund);
   color: var(--light-theme-second-color);
-  /* transition: .3s ease all !important; */
 }
 
 .default-number.light-mode {
